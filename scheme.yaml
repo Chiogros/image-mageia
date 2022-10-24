@@ -1,0 +1,222 @@
+image:
+  description: |-
+    Mageia {{ image.release }}
+  distribution: mageia
+  release: 8
+  architecture: x86_64
+    #expiry: 30d
+    #variant: default
+    #name: distro-release-x86_64
+    #serial: some-random-string
+
+source:
+  downloader: rootfs-http
+  url: http://ftp.free.fr/mirrors/mageia.org/distrib/8/x86_64/install/stage2/mdkinst.sqfs
+    #keys:
+    #- 0xEDCA7A90
+    #keyserver: http://pool.sks-keyservers.net
+    #variant: default
+    #suite: suite
+    #same_as: bionic
+  skip_verification: true
+
+targets:
+  lxc:
+    create_message: |-
+      You just created an {{ image.description }} container.
+
+      To enable SSH, run: urpmi openssh-server
+      No default root or user password are set by LXC.
+
+    config:
+      - type: all
+        before: 5
+        content: |-
+          lxc.include = LXC_TEMPLATE_CONFIG/ubuntu.common.conf
+#
+      - type: user
+        before: 5
+        content: |-
+          lxc.include = LXC_TEMPLATE_CONFIG/ubuntu.userns.conf
+
+      - type: all
+        after: 4
+        content: |-
+          lxc.include = LXC_TEMPLATE_CONFIG/common.conf
+
+      - type: user
+        after: 4
+        content: |-
+          lxc.include = LXC_TEMPLATE_CONFIG/userns.conf
+
+      - type: all
+        content: |-
+          lxc.arch = {{ image.architecture_personality }}
+  lxd:
+    vm:
+      size: 2147483648
+      filesystem: ext4
+
+files:
+#  - generator: dump
+#    path: /some/path
+#    content: |-
+#      here goes the content
+#    name: name
+#    mode: 0644
+#    gid: 1000
+#    uid: 1000
+#    template:
+#      properties:
+#        key: value
+#      when:
+#        - always
+#    templated: true
+#    releases:
+#      - a
+#      - b
+#    architectures:
+#      - x86_64
+#    variants:
+#      - default
+#
+  - generator: hostname
+    path: /etc/hostname
+
+  - generator: hosts
+    path: /etc/hosts
+
+  - generator: remove
+    path: /root/file
+
+#  - generator: template
+#    name: foo
+#    content: |-
+#      Here goes the content
+#    template:
+#      properties:
+#        key: value
+#      when:
+#        - create
+#        - copy
+
+          #  - generator: upstart-tty
+          #    path: /etc/init/lxc-tty.conf
+
+#  - generator: cloud-init
+#    name: user-data
+#    content: |-
+#      Here goes the user-data
+#
+packages:
+  manager: dnf
+    #  custom_manager:
+#    clean:
+#      cmd: mgr
+#      flags:
+#        - clean
+#    install:
+#      cmd: mgr
+#      flags:
+#        - install
+#    remove:
+#      cmd: mgr
+#      flags:
+#        - remove
+#    refresh:
+#      cmd: mgr
+#      flags:
+#        - refresh
+#    update:
+#      cmd: mgr
+#      flags:
+#        - update
+#    flags:
+#      - --yes
+#  update: true
+#  cleanup: false
+#  sets:
+#    - packages:
+#        - gnupg
+#      action: install
+#      early: true
+#
+#    - packages:
+#        - vim
+#      action: install
+#      releases:
+#        - a
+#        - b
+#      architectures:
+#        - x86_64
+#      variants:
+#        - default
+#
+#    - packages:
+#        - lightdm
+#      action: install
+#      flags:
+#        - --no-install-recommends
+#
+#    - packages:
+#        - grub
+#      action: remove
+#
+#  repositories:
+#    - name: reponame
+#      url: |-
+#        deb http://archive.ubuntu.com/ubuntu {{ image.release }}-updates main restricted universe multiverse
+#      type: type
+#      key: 0xdeadbeaf
+#      releases:
+#        - a
+#        - b
+#      architectures:
+#        - x86_64
+#      variants:
+#        - default
+#
+#actions:
+#  - trigger: post-unpack
+#    action: |-
+#      #!/bin/sh
+#
+#      do something after the rootfs has been unpacked
+#
+#  - trigger: post-files
+#    action: |-
+#      #!/bin/sh
+#
+#      do something after the files section has been processed
+#
+#  - trigger: post-update
+#    action: |-
+#      #!/bin/sh
+#
+#      do something after packages have been processed
+#
+#  - trigger: post-packages
+#    action: |-
+#      #!/bin/sh
+#
+#      do something after the packages section has been processed
+#
+#    releases:
+#      - a
+#      - b
+#    architectures:
+#      - x86_64
+#    variants:
+#      - default
+#
+#mappings:
+#  architectures:
+#    a: b
+#    c: d
+#  architecture_map: debian
+#
+#environment:
+#  clear_defaults: true
+#  variables:
+#    - key: FOO
+#      value: bar
