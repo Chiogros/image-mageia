@@ -1,0 +1,4 @@
+*.sqfs
+out/
+rootfs/
+.*.swp
