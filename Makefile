@@ -1,5 +1,5 @@
 DIST = mageia
-DIST_VER = 8
+DIST_VER = 9
 CT_NAME := $(DIST)$(DIST_VER)
 CT_PATH := $(shell pwd)/$(CT_NAME)
 ROOTFS = rootfs
@@ -8,24 +8,26 @@ distrobuilder = distrobuilder
 brctl = brctl
 
 minimal-fs:
-	mkdir $(CT_NAME)
+	mkdir -v $(CT_NAME)
+
+	$(info Crafting basic filesystem...)
 	rpm --rebuilddb --root=$(CT_PATH)
 
 	$(info Installing base RPMs...)
-	rpm --root=$(CT_PATH) --nodeps -ivh http://ftp.free.fr/mirrors/mageia.org/distrib/$(DIST_VER)/x86_64/media/core/release/mageia-release-Default-8-3.mga$(DIST_VER).x86_64.rpm
-	rpm --root=$(CT_PATH) --nodeps -ivh http://ftp.free.fr/mirrors/mageia.org/distrib/$(DIST_VER)/x86_64/media/core/release/mageia-release-common-8-3.mga$(DIST_VER).x86_64.rpm
-	rpm --root=$(CT_PATH) --nodeps -ivh http://ftp.free.fr/mirrors/mageia.org/distrib/$(DIST_VER)/x86_64/media/core/release/lsb-release-3.1-2.mga$(DIST_VER).noarch.rpm
+	rpm --root=$(CT_PATH) --nodeps -ivh http://ftp.free.fr/mirrors/mageia.org/distrib/$(DIST_VER)/x86_64/media/core/release/mageia-release-Default-$(DIST_VER)-2.mga$(DIST_VER).x86_64.rpm
+	rpm --root=$(CT_PATH) --nodeps -ivh http://ftp.free.fr/mirrors/mageia.org/distrib/$(DIST_VER)/x86_64/media/core/release/mageia-release-common-$(DIST_VER)-2.mga$(DIST_VER).x86_64.rpm
+	rpm --root=$(CT_PATH) --nodeps -ivh http://ftp.free.fr/mirrors/mageia.org/distrib/$(DIST_VER)/x86_64/media/core/release/lsb-release-3.1-5.mga$(DIST_VER).noarch.rpm
 
-	$(info Configuring $(TGT_DIST) repositories...)
+	$(info Configuring repositories...)
 	urpmi.addmedia --distrib http://ftp.free.fr/mirrors/mageia.org/distrib/$(DIST_VER)/x86_64 --urpmi-root $(CT_PATH)
 
 	$(info Installing minimal system...)
-	urpmi basesystem-minimal urpmi locales locales-en systemd --auto --no-recommends --urpmi-root $(CT_PATH) --root $(CT_PATH)
+	urpmi basesystem-minimal urpmi locales locales-en dhcp-client curl anacron systemd --auto --no-recommends --urpmi-root $(CT_PATH) --root $(CT_PATH)
 
 squash-fs:
 	mksquashfs $(CT_NAME) $(CT_NAME).sqfs
 
-out/rootfs.tar.xz out/meta.tar.xz: mageia.yaml 
+out/: $(DIST).yaml
 	$(info Building root FS...)
 	$(distrobuilder) build-dir $(DIST).yaml $(ROOTFS)
 
