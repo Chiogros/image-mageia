@@ -4,20 +4,10 @@ image:
   distribution: mageia
   release: 8
   architecture: x86_64
-    #expiry: 30d
-    #variant: default
-    #name: distro-release-x86_64
-    #serial: some-random-string
 
 source:
   downloader: rootfs-http
   url: file:///home/alex/IT/Mageia-LXC/Mageia8.sqfs
-    #keys:
-    #- 0xEDCA7A90
-    #keyserver: http://pool.sks-keyservers.net
-    #variant: default
-    #suite: suite
-    #same_as: bionic
   skip_verification: true
 
 targets:
@@ -385,3 +375,9 @@ actions:
     for repo in $(ls /etc/yum.repos.d/*.bak); do
       mv "${repo}" ${repo%.*}
     done
+
+- trigger: post-files
+  action: |-
+    #!/bin/sh
+
+    echo "LANG=en_US.UTF-8" > /etc/locale.conf
