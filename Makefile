@@ -22,7 +22,7 @@ minimal-fs:
 	urpmi.addmedia --distrib http://ftp.free.fr/mirrors/mageia.org/distrib/$(DIST_VER)/x86_64 --urpmi-root $(CT_PATH)
 
 	$(info Installing minimal system...)
-	urpmi basesystem-minimal urpmi locales locales-en dhcp-client curl anacron systemd --auto --no-recommends --urpmi-root $(CT_PATH) --root $(CT_PATH)
+	urpmi basesystem-minimal urpmi locales locales-en dhcp-client curl systemd --auto --no-recommends --urpmi-root $(CT_PATH) --root $(CT_PATH)
 
 squash-fs:
 	mksquashfs $(CT_NAME) $(CT_NAME).sqfs
