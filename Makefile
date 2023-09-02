@@ -26,12 +26,8 @@ squash-fs:
 	mksquashfs $(CT_PATH) $(DIST).sqfs
 
 build: $(DIST).yaml
-	$(info Building root FS...)
-	sudo $(distrobuilder) build-dir $(DIST).yaml $(ROOTFS)
-
 	$(info Packing container...)
-	mkdir $(OUT) || true
-	sudo $(distrobuilder) pack-lxc $(DIST).yaml $(ROOTFS) $(OUT)
+	sudo $(distrobuilder) build-lxc $(DIST).yaml $(OUT)
 
 lxc-create:
 	lxc-create --name $(CT_NAME) --template local -- --fstree $(OUT)/rootfs.tar.xz --metadata $(OUT)/meta.tar.xz
