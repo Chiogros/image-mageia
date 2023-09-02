@@ -1,0 +1,11 @@
+name: Clone repository
+on:
+  workflow_call:
+
+jobs:
+  clone_repo:
+    - name: Clone repository
+      runs-on: self-hosted
+      steps:
+        - name: Cloning repository
+          run: git clone git@github.com:Chiogros/image-mageia-lxc.git
