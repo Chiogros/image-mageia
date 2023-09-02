@@ -6,7 +6,7 @@ image:
 
 source:
   downloader: rootfs-http
-  url: file://mageia.sqfs
+  url: file:///home/runner/_work/image-mageia-lxc/image-mageia-lxc/mageia.sqfs
   skip_verification: true
 
 targets:
