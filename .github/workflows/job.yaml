@@ -8,8 +8,7 @@ on:
 jobs:
   clone_repo:
     name: Clone repo
-    runs-on: self-hosted
-    uses: GuillaumeFalourd/clone-github-repo-action@v2.1
+    uses: GuillaumeFalourd/clone-github-repo-action/.github/workflows/public-repo.yml@v2.1
     with:
       owner: Chiogros
       repository: image-mageia-lxc
