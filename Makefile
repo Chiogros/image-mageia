@@ -30,7 +30,7 @@ minimal-fs:
 squash-fs:
 	mksquashfs $(CT_NAME) $(CT_NAME).sqfs
 
-out/: $(DIST).yaml
+build: $(DIST).yaml
 	$(info Building root FS...)
 	$(distrobuilder) build-dir $(DIST).yaml $(ROOTFS)
 
