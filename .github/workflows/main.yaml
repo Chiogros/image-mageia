@@ -13,12 +13,8 @@ jobs:
     name: Clean old repo
     runs-on: self-hosted
     steps:
-      - name: Move to homedir
-        run: cd /home/runner
-      - name: Echo pwd
-        run: pwd
       - name: Clean old repo
-        run: sudo rm -rf "_work/${{github.event.repository.name}}"
+        run: sudo rm -rf "/home/runner/_work/${{github.event.repository.name}}"
   clone_repo:
     name: Clone repo
     runs-on: self-hosted
@@ -41,7 +37,7 @@ jobs:
         run: make squash-fs
       - name: List directory content
         run: ls -lh; pwd
-      - uses: actions/download_artifact@v3
+      - uses: actions/download-artifact@v3
         with:
           name: ${{env.os}}${{env.ver}}.sqfs
           path: ${{env.os}}${{env.ver}}.sqfs
