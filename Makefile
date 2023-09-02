@@ -2,7 +2,6 @@ DIST = mageia
 DIST_VER = 9
 CT_NAME := $(DIST)$(DIST_VER)
 CT_PATH := $(shell pwd)/$(CT_NAME)
-LSB_VER = 3.1-5
 
 ROOTFS = rootfs
 OUT = out
@@ -16,18 +15,14 @@ minimal-fs:
 	$(info Initializing RPM database...)
 	rpm --rebuilddb --root=$(CT_PATH)
 
-	$(info Installing base RPMs...)
-	rpm --root=$(CT_PATH) --nodeps -ivh http://ftp.free.fr/mirrors/mageia.org/distrib/$(DIST_VER)/x86_64/media/core/release/mageia-release-Default-$(DIST_VER)-2.mga$(DIST_VER).x86_64.rpm
-	rpm --root=$(CT_PATH) --nodeps -ivh http://ftp.free.fr/mirrors/mageia.org/distrib/$(DIST_VER)/x86_64/media/core/release/mageia-release-common-$(DIST_VER)-2.mga$(DIST_VER).x86_64.rpm
-	rpm --root=$(CT_PATH) --nodeps -ivh http://ftp.free.fr/mirrors/mageia.org/distrib/$(DIST_VER)/x86_64/media/core/release/lsb-release-$(LSB_VER).mga$(DIST_VER).noarch.rpm
-
 	$(info Configuring repositories...)
 	sudo urpmi.addmedia --distrib http://ftp.free.fr/mirrors/mageia.org/distrib/$(DIST_VER)/x86_64 --urpmi-root $(CT_PATH)
 
 	$(info Installing minimal system...)
-	sudo urpmi basesystem-minimal urpmi locales locales-en dhcp-client curl systemd xz --auto --no-recommends --urpmi-root $(CT_PATH) --root $(CT_PATH)
+	sudo urpmi basesystem-minimal urpmi mageia-release-Default mageia-release-common lsb-release systemd locales locales-en xz dhcp-client curl --auto --no-recommends --urpmi-root $(CT_PATH) --root $(CT_PATH)
 
 squash-fs:
+	$(info Squashing FS...)
 	mksquashfs $(CT_NAME) $(CT_NAME).sqfs
 
 build: $(DIST).yaml
