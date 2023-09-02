@@ -13,7 +13,7 @@ brctl = brctl
 minimal-fs:
 	mkdir -v $(CT_NAME)
 
-	$(info Crafting basic filesystem...)
+	$(info Initializing RPM database...)
 	rpm --rebuilddb --root=$(CT_PATH)
 
 	$(info Installing base RPMs...)

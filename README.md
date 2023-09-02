@@ -16,7 +16,7 @@ Building process is made available through the Makefile.
 Makefile target: `minimal-fs`
 
 Steps:
-- Build a [FHS](https://en.wikipedia.org/wiki/Filesystem_Hierarchy_Standard) in a directory
+- Initialize the RPM database for Mageia in a directory
 - Add Mageia repositories in host package manager source lists
 - Install OS specific packages: `mageia-release-Default`, `mageia-release-common`, `lsb-release`
 - Install basic packages: `urpmi`, `locales`, `systemd`, ...
