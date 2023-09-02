@@ -39,6 +39,12 @@ jobs:
     steps:
       - name: Make target 'squash-fs'
         run: make squash-fs
+      - name: List directory content
+        run: ls -lh; pwd
+      - uses: actions/download_artifact@v3
+        with:
+          name: ${{env.os}}${{env.ver}}.sqfs
+          path: ${{env.os}}${{env.ver}}.sqfs
   build_for_target:
     name: Build for target
     runs-on: self-hosted
