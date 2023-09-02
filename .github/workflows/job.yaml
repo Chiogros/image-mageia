@@ -17,6 +17,8 @@ jobs:
     name: Craft minimal system 
     runs-on: self-hosted
     steps:
+      - name: Create building environment
+        run: mkdir mageia
       - name: Building FHS
         run: sudo rpm --rebuilddb --root=mageia
 
