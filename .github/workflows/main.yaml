@@ -5,16 +5,21 @@ on:
 #    branches:
 #      - main
 
+env:
+  os: mageia
+  ver: 8
+
 jobs:
   clone_repo:
     name: Clone repo
-    uses: ./.github/workflows/clone-repo.yaml
+    uses: actions/checkout@v3
   craft_minimal_system:
     name: Craft minimal system 
     runs-on: self-hosted
+    needs: clone_repo
     steps:
       - name: Create building environment
         run: mkdir mageia
       - name: Building FHS
-        run: sudo rpm --rebuilddb --root=mageia
+        run: sudo rpm --rebuilddb --root=${GITHUB_WORKSPACE}/mageia
 
