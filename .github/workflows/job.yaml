@@ -9,4 +9,4 @@ jobs:
     runs-on: self-hosted
     steps:
       - name: Building FHS
-        run: rpm --rebuilddb --root=mageia
+        run: sudo rpm --rebuilddb --root=mageia
