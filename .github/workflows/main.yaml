@@ -7,7 +7,6 @@ on:
 
 env:
   os: mageia
-  ver: 8
 
 jobs:
   clone_repo:
@@ -20,8 +19,27 @@ jobs:
     runs-on: self-hosted
     needs: clone_repo
     steps:
-      - name: Create building environment
-        run: mkdir mageia
-      - name: Building FHS
-        run: sudo rpm --rebuilddb --root=${GITHUB_WORKSPACE}/mageia
-
+      #- name: Create building environment
+      #  run: mkdir ${{env.os}}
+      #- name: Building FHS
+      #  run: sudo rpm --rebuilddb --root=${GITHUB_WORKSPACE}/${{env.os}}
+      - name: Make target 'minimal-fs'
+        run: make minimal-fs
+  compress_readonly_filesystem:
+    name: Compress read-only filesystem
+    runs-on: self-hosted
+    needs: craft_minimal_system
+    steps:
+      - name: Make target 'squash-fs'
+        run: make squash-fs
+  build_for_target:
+    name: Build for target
+    runs-on: self-hosted
+    needs: compress_readonly_filesystem
+    steps:
+      - name: Make target 'build'
+        run: make build
+#      - uses: actions/upload-artifact@v3
+#        with:
+#          name: ${{env.os}}${{env.ver}} LXC image
+#          path: ${GITHUB_WORKSPACE}/${{env.os}}/${{env.os}}
