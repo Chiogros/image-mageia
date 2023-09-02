@@ -1,4 +1,4 @@
-name: Making LXC image
+name: Build LXC image
 on:
   workflow_dispatch:
 #  push:
@@ -14,7 +14,7 @@ jobs:
     runs-on: self-hosted
     steps:
       - name: Clean old repo
-        run: sudo rm -rf "/home/runner/_work/${{github.event.repository.name}}"
+        run: sudo rm -rf "$PWD/../${{github.event.repository.name}}"
   clone_repo:
     name: Clone repo
     runs-on: self-hosted
@@ -37,6 +37,7 @@ jobs:
         run: make squash-fs
       - uses: actions/upload-artifact@v3
         with:
+          name: ${{env.os}}.sqfs
           path: ${{env.os}}.sqfs
   build_for_target:
     name: Build for target
@@ -45,7 +46,7 @@ jobs:
     steps:
       - name: Make target 'build'
         run: make build
-#      - uses: actions/upload-artifact@v3
-#        with:
-#          name: ${{env.os}}${{env.ver}} LXC image
-#          path: ${GITHUB_WORKSPACE}/${{env.os}}/${{env.os}}
+      - uses: actions/upload-artifact@v3
+        with:
+          name: image-${{env.os}}-lxc
+          path: ./out

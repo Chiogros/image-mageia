@@ -6,7 +6,7 @@ CT_PATH := $(shell pwd)/$(CT_NAME)
 ROOTFS = rootfs
 OUT = out
 
-distrobuilder = distrobuilder
+distrobuilder = /usr/local/bin/distrobuilder
 brctl = brctl
 
 minimal-fs:
@@ -27,11 +27,11 @@ squash-fs:
 
 build: $(DIST).yaml
 	$(info Building root FS...)
-	$(distrobuilder) build-dir $(DIST).yaml $(ROOTFS)
+	sudo $(distrobuilder) build-dir $(DIST).yaml $(ROOTFS)
 
 	$(info Packing container...)
 	mkdir $(OUT) || true
-	$(distrobuilder) pack-lxc $(DIST).yaml $(ROOTFS) $(OUT)
+	sudo $(distrobuilder) pack-lxc $(DIST).yaml $(ROOTFS) $(OUT)
 
 lxc-create:
 	lxc-create --name $(CT_NAME) --template local -- --fstree $(OUT)/rootfs.tar.xz --metadata $(OUT)/meta.tar.xz
