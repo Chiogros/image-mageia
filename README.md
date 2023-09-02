@@ -1,5 +1,8 @@
-# Mageia LXC template
+# Mageia LXC/LXD template
 A lightweight template for easy deployments.
+
+## Status
+[![Build LXC image](https://github.com/Chiogros/image-mageia-lxc/actions/workflows/main.yaml/badge.svg)](https://github.com/Chiogros/image-mageia-lxc/actions/workflows/main.yaml)
 
 ## Development
 Multiple stages are needed to go from an empty filesystem to a ready-to-go Mageia.
@@ -22,7 +25,7 @@ Steps:
 - Install basic packages: `urpmi`, `locales`, `systemd`, ...
 
 ### Compress filesystem read-only
-Makefile target: `squashfs`
+Makefile target: `squash-fs`
 
 Output is a `.sqfs` file.
 
@@ -37,9 +40,9 @@ Makefile target: `build`
 - Scripts to execute inside the new system
 - Targets: vm, container, cloud, ...default
 
-`Distrobuilder` is used twice:
-1. Apply FS modifications: basic config, set locale, fix symlinks, ...
-2. Pack FS for LXC: produce `rootfs` and `meta`data files
+`Distrobuilder` is used for:
+1. Applying system modifications: basic config, set locale, fix symlinks, ...
+2. Packing for LXC/LXD: produce `rootfs` and `meta` data files, plus `qcow2` for LXD
 
 ## Testing
 Generated images are available in [`Releases`](https://github.com/Chiogros/image-mageia-lxc/tags) page.
