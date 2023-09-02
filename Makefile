@@ -10,7 +10,7 @@ distrobuilder = distrobuilder
 brctl = brctl
 
 minimal-fs:
-	mkdir -v $(CT_NAME)
+	mkdir -v $(CT_PATH)
 
 	$(info Initializing RPM database...)
 	rpm --rebuilddb --root=$(CT_PATH)
@@ -23,7 +23,7 @@ minimal-fs:
 
 squash-fs:
 	$(info Squashing FS...)
-	mksquashfs $(CT_NAME) $(CT_NAME).sqfs
+	mksquashfs $(CT_PATH) $(DIST).sqfs
 
 build: $(DIST).yaml
 	$(info Building root FS...)
@@ -34,7 +34,7 @@ build: $(DIST).yaml
 	$(distrobuilder) pack-lxc $(DIST).yaml $(ROOTFS) $(OUT)
 
 lxc-create:
-	lxc-create --name "${CT_NAME}" --template local -- --fstree $(OUT)/rootfs.tar.xz --metadata $(OUT)/meta.tar.xz
+	lxc-create --name $(CT_NAME) --template local -- --fstree $(OUT)/rootfs.tar.xz --metadata $(OUT)/meta.tar.xz
 
 lxc-start:
 	lxc-start -n $(CT_NAME)
