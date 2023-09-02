@@ -2,8 +2,11 @@ DIST = mageia
 DIST_VER = 9
 CT_NAME := $(DIST)$(DIST_VER)
 CT_PATH := $(shell pwd)/$(CT_NAME)
+LSB_VER = 3.1-5
+
 ROOTFS = rootfs
 OUT = out
+
 distrobuilder = distrobuilder
 brctl = brctl
 
@@ -16,7 +19,7 @@ minimal-fs:
 	$(info Installing base RPMs...)
 	rpm --root=$(CT_PATH) --nodeps -ivh http://ftp.free.fr/mirrors/mageia.org/distrib/$(DIST_VER)/x86_64/media/core/release/mageia-release-Default-$(DIST_VER)-2.mga$(DIST_VER).x86_64.rpm
 	rpm --root=$(CT_PATH) --nodeps -ivh http://ftp.free.fr/mirrors/mageia.org/distrib/$(DIST_VER)/x86_64/media/core/release/mageia-release-common-$(DIST_VER)-2.mga$(DIST_VER).x86_64.rpm
-	rpm --root=$(CT_PATH) --nodeps -ivh http://ftp.free.fr/mirrors/mageia.org/distrib/$(DIST_VER)/x86_64/media/core/release/lsb-release-3.1-5.mga$(DIST_VER).noarch.rpm
+	rpm --root=$(CT_PATH) --nodeps -ivh http://ftp.free.fr/mirrors/mageia.org/distrib/$(DIST_VER)/x86_64/media/core/release/lsb-release-$(LSB_VER).mga$(DIST_VER).noarch.rpm
 
 	$(info Configuring repositories...)
 	urpmi.addmedia --distrib http://ftp.free.fr/mirrors/mageia.org/distrib/$(DIST_VER)/x86_64 --urpmi-root $(CT_PATH)
@@ -34,9 +37,6 @@ out/: $(DIST).yaml
 	$(info Packing container...)
 	mkdir $(OUT) || true
 	$(distrobuilder) pack-lxc $(DIST).yaml $(ROOTFS) $(OUT)
-
-	$(info Creating network bridge...)
-	$(brctl) addbr vmbr0
 
 lxc-create:
 	lxc-create --name "${CT_NAME}" --template local -- --fstree $(OUT)/rootfs.tar.xz --metadata $(OUT)/meta.tar.xz
