@@ -8,11 +8,7 @@ on:
 jobs:
   clone_repo:
     name: Clone repo
-    uses: GuillaumeFalourd/clone-github-repo-action/.github/workflows/public-repo.yml@v2.1
-    with:
-      owner: Chiogros
-      repository: image-mageia-lxc
-      depth: 1
+    uses: ./.github/workflows/clone-repo.yml
   craft_minimal_system:
     name: Craft minimal system 
     runs-on: self-hosted
