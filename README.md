@@ -4,7 +4,7 @@ A lightweight template for easy deployments.
 ## Development
 Multiple stages are needed to go from an empty filesystem to a ready-to-go Mageia.
 1. Craft minimal system: install core (and some extra) packages needed for the newly built system
-2. Compress read-only filesystem: reduce built system size
+2. Compress filesystem read-only: reduce built system size
 3. Build for target: target specific modifications (e.g. needed packages for VM), metadata, filesystem edits
 
 As `urpmi` is used to install the needed packages, it is adviced to build image from a Mageia (virtual) machine.
@@ -21,7 +21,7 @@ Steps:
 - Install OS specific packages: `mageia-release-Default`, `mageia-release-common`, `lsb-release`
 - Install basic packages: `urpmi`, `locales`, `systemd`, ...
 
-### Compress read-only filesystem
+### Compress filesystem read-only
 Makefile target: `squashfs`
 
 Output is a `.sqfs` file.

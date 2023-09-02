@@ -1,18 +1,18 @@
 image:
   distribution: mageia
-  release: 9
+  # release: 9
   architecture: x86_64
-  description: Mageia {{ image.release }}
+  # description: Mageia {{ image.release }}
 
 source:
   downloader: rootfs-http
-  url: file:///home/alex/IT/Mageia-LXC/Mageia{{ image.release }}.sqfs
+  url: file://mageia.sqfs
   skip_verification: true
 
 targets:
   lxc:
     create_message: |
-      You just created a {{ image.description }} container.
+      You just created a {{ image.distribution }} container.
     config:
     - type: all
       before: 5
