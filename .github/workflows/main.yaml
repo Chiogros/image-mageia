@@ -13,8 +13,12 @@ jobs:
     name: Clean old repo
     runs-on: self-hosted
     steps:
+      - name: Move to homedir
+        run: cd /home/runner
+      - name: Echo pwd
+        run: pwd
       - name: Clean old repo
-        run: sudo rm -rf ${{env.os}}
+        run: sudo rm -rf "_work/${{github.event.repository.name}}"
   clone_repo:
     name: Clone repo
     runs-on: self-hosted
@@ -26,10 +30,6 @@ jobs:
     runs-on: self-hosted
     needs: clone_repo
     steps:
-      #- name: Create building environment
-      #  run: mkdir ${{env.os}}
-      #- name: Building FHS
-      #  run: sudo rpm --rebuilddb --root=${GITHUB_WORKSPACE}/${{env.os}}
       - name: Make target 'minimal-fs'
         run: make minimal-fs
   compress_readonly_filesystem:
