@@ -13,12 +13,10 @@ jobs:
     name: Clean old repo
     runs-on: self-hosted
     steps:
-      - name: Print pwd
-        run: pwd
-      - name: Print dir
-        run: ls -lh
-          #      - name: Clean old repo
-          #run: sudo rm -rf ${GITHUB_WORKSPACE}
+      - name: Move to homedir
+        run: cd ~
+      - name: Clean old repo
+        run: sudo rm -rf "_work/${{github.event.repository.name}}"
   clone_repo:
     name: Clone repo
     runs-on: self-hosted
