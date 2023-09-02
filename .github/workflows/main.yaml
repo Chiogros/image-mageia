@@ -9,9 +9,16 @@ env:
   os: mageia
 
 jobs:
+  clean_repo:
+    name: Clean old repo
+    runs-on: self-hosted
+    steps:
+      - name: Clean old repo
+        run: sudo rm -rf ${{env.os}}
   clone_repo:
     name: Clone repo
     runs-on: self-hosted
+    needs: clean_repo
     steps:
       - uses: actions/checkout@v3
   craft_minimal_system:
