@@ -1,0 +1,12 @@
+name: Making LXC image
+on:
+  push:
+    branches:
+      - main
+jobs:
+  craft_minimal_system:
+    name: Craft minimal system 
+    runs-on: self-hosted
+    steps:
+      - name: Building FHS
+        run: rpm --rebuilddb --root=mageia
