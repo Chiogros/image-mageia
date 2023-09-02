@@ -6,7 +6,7 @@ image:
 
 source:
   downloader: rootfs-http
-  url: file:///home/runner/_work/image-mageia-lxc/image-mageia-lxc/mageia.sqfs
+  url: file:///home/alex/IT/image-mageia-lxc/mageia.sqfs
   skip_verification: true
 
 targets:
@@ -37,6 +37,10 @@ targets:
     - type: all
       content: |-
         lxc.arch = {{ image.architecture_kernel }}
+  lxd:
+    vm:
+      size: 8589934592
+      filesystem: ext4
 
 files:
 - path: /etc/default/grub
@@ -150,80 +154,88 @@ files:
   - vm
 
 packages:
-  manager: dnf
-#  update: true
-#  cleanup: true
-#  sets:
-#  - packages:
-#    - cpio
-#    - file
-#    - findutils
-#    - fipscheck
-#    - gettext
-#    - glibc-all-langpacks
-#    - hardlink
-#    - hostname
-#    - ipcalc
-#    - iproute
-#    - iproute-tc
-#    - iputils
-#    - kbd
-#    - kmod
-#    - openssh-clients
-#    - passwd
-#    - pigz
-#    - policycoreutils
-#    - procps-ng
-#    - sudo
-#    - systemd-udev
-#    - which
-#    - xz
-#    action: install
-#
-#  - packages:
-#    - cloud-init
-#    - openssh-server
-#    action: install
-#    variants:
-#    - cloud
-#
-#  - packages:
-#    - cloud-utils-growpart
-#    action: install
-#    types:
-#    - vm
-#    variants:
-#    - cloud
-#
-#  - packages:
-#    - libsss_idmap
-#    - libsss_nss_idmap
-#    - sssd-client
-#    action: remove
-#
-#  - packages:
-#    - grub2-efi-x64
-#    action: install
-#    architectures:
-#    - x86_64
-#    types:
-#    - vm
-#
-#  - packages:
-#    - grub2-efi-aa64
-#    action: install
-#    architectures:
-#    - aarch64
-#    types:
-#    - vm
-#
-#  - packages:
-#    - kernel
-#    - shim
-#    - dracut
-#    action: install
-#    types:
-#    - vm
+  custom_manager:
+    install:
+      cmd: urpmi
+    update:
+      cmd: urpmi --auto-update
+    remove:
+      cmd: urpme
+    refresh:
+      cmd: urpmi.update -a
+    clean:
+      cmd: urpme
+  sets:
+  - packages:
+    - cpio
+    - file
+    - findutils
+    - fipscheck
+    - gettext
+    - glibc-all-langpacks
+    - hardlink
+    - hostname
+    - ipcalc
+    - iproute
+    - iproute-tc
+    - iputils
+    - kbd
+    - kmod
+    - openssh-clients
+    - passwd
+    - pigz
+    - policycoreutils
+    - procps-ng
+    - sudo
+    - systemd-udev
+    - which
+    - xz
+    action: install
+
+  - packages:
+    - cloud-init
+    - openssh-server
+    action: install
+    variants:
+    - cloud
+
+  - packages:
+    - cloud-utils-growpart
+    action: install
+    types:
+    - vm
+    variants:
+    - cloud
+
+  - packages:
+    - libsss_idmap
+    - libsss_nss_idmap
+    - sssd-client
+    action: remove
+
+  - packages:
+    - grub2-efi-x64
+    action: install
+    architectures:
+    - x86_64
+    types:
+    - vm
+
+  - packages:
+    - grub2-efi-aa64
+    action: install
+    architectures:
+    - aarch64
+    types:
+    - vm
+
+  - packages:
+    - kernel
+    - shim
+    - dracut
+    action: install
+    types:
+    - vm
 
 actions:
 - trigger: post-packages
@@ -274,7 +286,7 @@ actions:
     # Remove the "Container Image" string as this is going to be am VM
     sed -i 's/[ ]*(Container Image)//;/^VARIANT/d' /etc/os-release
 
-    target=/boot/efi/EFI/fedora/grub.cfg
+    target=/boot/efi/EFI/mageia/grub.cfg
     grub2-mkconfig -o "${target}"
     sed -i "s#root=[^ ]*#root=/dev/sda2#g" "${target}"
 
@@ -291,11 +303,11 @@ actions:
     done
 
     # Wipe grub environment
-    rm -f /boot/efi/EFI/fedora/grubenv
+    rm -f /boot/efi/EFI/mageia/grubenv
 
     exit 0
   types:
-  - vm
+    - vm
 
 - trigger: post-files
   action: |-
