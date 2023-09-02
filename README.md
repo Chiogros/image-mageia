@@ -2,12 +2,12 @@
 A lightweight template for easy deployments.
 
 ## Development
-Multiple stages are needed to go from an empty filesystem to a Mageia ready-to-go system.
+Multiple stages are needed to go from an empty filesystem to a ready-to-go Mageia.
 1. Craft minimal system: install core (and some extra) packages needed for the newly built system
 2. Compress read-only filesystem: reduce built system size
 3. Build for target: target specific modifications (e.g. needed packages for VM), metadata, filesystem edits
 
-As `urpmi` is used to install the needed packages, it is adviced to built image from a Mageia (virtual) machine.
+As `urpmi` is used to install the needed packages, it is adviced to build image from a Mageia (virtual) machine.
 It should not be too hard to allow building from another host package manager.
 
 Building process is made available through the Makefile.
@@ -30,9 +30,10 @@ Output is a `.sqfs` file.
 Makefile target: `build`
 
 `Distrobuilder` needs an image config file: `mageia.yaml`.
+
 `mageia.yaml` describes:
-- Image metadata: OS, version, arch
-# - Extra packages to install
+- Image metadata: OS, version, arch  
+- Extra packages to install -> TBD
 - Scripts to execute inside the new system
 - Targets: vm, container, cloud, ...default
 
@@ -48,6 +49,7 @@ Proxmox allows to run LXC containers from publicly available templates, or from 
 
 #### GUI
 On WebUI, you can import Mageia's rootfs by going to: `Storage > CT Templates > Upload`
+
 You can then create a new container.
 
 #### CLI
