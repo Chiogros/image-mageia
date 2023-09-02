@@ -9,7 +9,11 @@ jobs:
   clone_repo:
     name: Clone repo
     runs-on: self-hosted
-    uses: ./.github/workflows/clone-repo.yaml
+    uses: GuillaumeFalourd/clone-github-repo-action@v2.1
+    with:
+      owner: Chiogros
+      repository: image-mageia-lxc
+      depth: 1
   craft_minimal_system:
     name: Craft minimal system 
     runs-on: self-hosted
