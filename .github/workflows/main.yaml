@@ -28,8 +28,8 @@ jobs:
     steps:
       - name: Make target 'minimal-fs'
         run: make minimal-fs
-  compress_readonly_filesystem:
-    name: Compress read-only filesystem
+  compress_filesystem_readonly:
+    name: Compress filesystem read-only
     runs-on: self-hosted
     needs: craft_minimal_system
     steps:
@@ -42,7 +42,7 @@ jobs:
   build_for_target:
     name: Build for target
     runs-on: self-hosted
-    needs: compress_readonly_filesystem
+    needs: compress_filesystem_readonly
     steps:
       - name: Make target 'build'
         run: make build
