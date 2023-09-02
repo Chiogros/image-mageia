@@ -22,7 +22,7 @@ minimal-fs:
 	rpm --root=$(CT_PATH) --nodeps -ivh http://ftp.free.fr/mirrors/mageia.org/distrib/$(DIST_VER)/x86_64/media/core/release/lsb-release-$(LSB_VER).mga$(DIST_VER).noarch.rpm
 
 	$(info Configuring repositories...)
-	urpmi.addmedia --distrib http://ftp.free.fr/mirrors/mageia.org/distrib/$(DIST_VER)/x86_64 --urpmi-root $(CT_PATH)
+	sudo urpmi.addmedia --distrib http://ftp.free.fr/mirrors/mageia.org/distrib/$(DIST_VER)/x86_64 --urpmi-root $(CT_PATH)
 
 	$(info Installing minimal system...)
 	urpmi basesystem-minimal urpmi locales locales-en dhcp-client curl systemd --auto --no-recommends --urpmi-root $(CT_PATH) --root $(CT_PATH)
