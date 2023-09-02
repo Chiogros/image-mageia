@@ -29,7 +29,7 @@ Output is a `.sqfs` file.
 ### Build for target
 Makefile target: `build`
 
-[Distrobuilder](https://github.com/lxc/distrobuilder) needs an image config file: `mageia.yaml`.
+[Distrobuilder](https://linuxcontainers.org/distrobuilder/introduction/) needs an image config file: `mageia.yaml`.
 
 `mageia.yaml` describes:
 - Image metadata: OS, version, arch  
