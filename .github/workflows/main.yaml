@@ -14,7 +14,7 @@ jobs:
     runs-on: self-hosted
     steps:
       - name: Clean old repo
-        run: sudo rm -rf ${{github.repository}}
+        run: sudo rm -rf ${{GITHUB_WORKSPACE}}
   clone_repo:
     name: Clone repo
     runs-on: self-hosted
