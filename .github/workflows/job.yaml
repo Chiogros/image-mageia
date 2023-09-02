@@ -1,12 +1,19 @@
 name: Making LXC image
 on:
-  push:
-    branches:
-      - main
+  workflow_dispatch:
+#  push:
+#    branches:
+#      - main
+
 jobs:
+  clone_repo:
+    name: Clone repo
+    runs-on: self-hosted
+    uses: ./.github/workflows/clone-repo.yaml
   craft_minimal_system:
     name: Craft minimal system 
     runs-on: self-hosted
     steps:
       - name: Building FHS
         run: sudo rpm --rebuilddb --root=mageia
+
