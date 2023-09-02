@@ -1,45 +1,57 @@
-# Mageia LXC
-Everything to build a Mageia LXC container.
+# Mageia LXC template
+A lightweight template for easy deployments.
 
-> Please note that the process is in heavy development. Do not use it (for the moment).
+## Development
+Multiple stages are needed to go from an empty filesystem to a Mageia ready-to-go system.
+1. Craft minimal system: install core (and some extra) packages needed for the newly built system
+2. Compress read-only filesystem: reduce built system size
+3. Build for target: target specific modifications (e.g. needed packages for VM), metadata, filesystem edits
 
-## Steps
-1. [Build Distrobuilder](https://github.com/lxc/distrobuilder#installing-from-source)
-2. Set mapped UID/GID
-3. Set config files
-4. Create bridge interface
-5. Build Mageia container
-6. Add container to LXC
-7. Start container
+As `urpmi` is used to install the needed packages, it is adviced to built image from a Mageia (virtual) machine.
+It should not be too hard to allow building from another host package manager.
 
-## Create bridge interface
-Install `bridge-utils`, used to manage bridge interfaces.
-Then, create a bridge. 
-```Bash
-brctl addbr br0
-```
+Building process is made available through the Makefile.
 
-## Build Mageia container
-```Bash
-distrobuilder build-lxc ./mageia/scheme.yaml
-```
+### Craft minimal system
+Makefile target: `minimal-fs`
 
-## Add container to LXC
-```Bash
-lxc-create -n mageia -t local -- --metadata meta.tar.xz --fstree rootfs.tar.xz
-```
+Steps:
+- Build a [FHS](https://en.wikipedia.org/wiki/Filesystem_Hierarchy_Standard) in a directory
+- Add Mageia repositories in host package manager source lists
+- Install OS specific packages: `mageia-release-Default`, `mageia-release-common`, `lsb-release`
+- Install basic packages: `urpmi`, `locales`, `systemd`, ...
 
-## Start container
-```Bash
-lxc-start -n mageia -F -f .config/lxc/default.conf
-```
+### Compress read-only filesystem
+Makefile target: `squashfs`
 
-## Notes
-```Bash
-sudo distrobuilder build-dir mageia.yaml
-sudo distrobuilder pack-lxc mageia.yaml rootfs/ out/
-sudo lxc-create --name mageia8 --template local -- --fstree out/rootfs.tar.xz --metadata out/meta.tar.xz
-sudo lxc-start -n mageia8 -F
-https://jenkins.linuxcontainers.org/job/image-fedora/architecture=amd64,release=37,variant=default/lastBuild/
-https://github.com/lxc/lxc-ci/blob/master/bin/build-distro
-```
+Output is a `.sqfs` file.
+
+### Build for target
+Makefile target: `build`
+
+`Distrobuilder` needs an image config file: `mageia.yaml`.
+`mageia.yaml` describes:
+- Image metadata: OS, version, arch
+# - Extra packages to install
+- Scripts to execute inside the new system
+- Targets: vm, container, cloud, ...default
+
+`Distrobuilder` is used twice:
+1. Apply FS modifications: basic config, set locale, fix symlinks, ...
+2. Pack FS for LXC: produce `rootfs` and `meta`data files
+
+## Testing
+Generated images are available in [`Releases`](https://github.com/Chiogros/image-mageia-lxc/tags) page.
+
+### Proxmox
+Proxmox allows to run LXC containers from publicly available templates, or from an uploaded one.
+
+#### GUI
+On WebUI, you can import Mageia's rootfs by going to: `Storage > CT Templates > Upload`
+You can then create a new container.
+
+#### CLI
+TDB
+
+### LXC
+TDB
