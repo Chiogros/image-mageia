@@ -48,5 +48,5 @@ jobs:
         run: make build
       - uses: actions/upload-artifact@v3
         with:
-          name: image-${{env.os}}-lxc
+          name: image-${{env.os}}
           path: ./out
