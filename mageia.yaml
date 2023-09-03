@@ -319,6 +319,6 @@ actions:
 - trigger: post-files
   action: |-
     #!/bin/sh
-    ln -sr /etc/product.id.Default /etc/product.id
+    # ln -s product.id.Default /etc/product.id
   variants:
     - default
