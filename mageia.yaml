@@ -214,7 +214,7 @@ packages:
     action: remove
 
   - packages:
-    - grub2-efi-x64
+    - grub2-efi
     action: install
     architectures:
     - x86_64
@@ -222,7 +222,7 @@ packages:
     - vm
 
   - packages:
-    - grub2-efi-aa64
+    - grub2-efi
     action: install
     architectures:
     - aarch64
@@ -286,12 +286,12 @@ actions:
     # Remove the "Container Image" string as this is going to be am VM
     sed -i 's/[ ]*(Container Image)//;/^VARIANT/d' /etc/os-release
 
-    target=/boot/efi/EFI/mageia/grub.cfg
+    target=/boot/EFI/EFI/mageia/grub.cfg
     grub2-mkconfig -o "${target}"
     sed -i "s#root=[^ ]*#root=/dev/sda2#g" "${target}"
 
-    sed -Eri "s#^(linux|initrd) .+/overlay/#\1 /#g" /boot/loader/entries/*
-    sed -ri 's#^options .+#options $kernelopts#g' /boot/loader/entries/*
+    #sed -Eri "s#^(linux|initrd) .+/overlay/#\1 /#g" /boot/loader/entries/*
+    #sed -ri 's#^options .+#options $kernelopts#g' /boot/loader/entries/*
 
     # Regenerate initramfs
     kver=$(ls /boot/initramfs-*.img | sed -r 's#.*initramfs-(.+)\.img#\1#')
@@ -303,7 +303,7 @@ actions:
     done
 
     # Wipe grub environment
-    rm -f /boot/efi/EFI/mageia/grubenv
+    rm -f /boot/EFI/EFI/mageia/grubenv
 
     exit 0
   types:
