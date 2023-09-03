@@ -23,7 +23,7 @@ minimal-fs:
 
 squash-fs:
 	$(info Squashing FS...)
-	mksquashfs $(CT_PATH) $(DIST).sqfs
+	sudo mksquashfs $(CT_PATH) $(DIST).sqfs
 
 build: $(DIST).yaml
 	$(info Packing container...)
