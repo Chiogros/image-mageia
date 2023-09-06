@@ -1,4 +1,4 @@
-# Mageia LXC/LXD template
+# Mageia LXC and Incus (LXD) templates
 A lightweight template for easy deployments.
 
 ## Status
