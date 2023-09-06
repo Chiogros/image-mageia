@@ -25,7 +25,7 @@ squash-fs:
 	$(info Squashing FS...)
 	sudo mksquashfs $(CT_PATH) $(DIST).sqfs
 
-build: $(DIST).yaml
+build-lxc: $(DIST).yaml
 	$(info Packing container...)
 	sudo $(distrobuilder) build-lxc $(DIST).yaml $(OUT)
 

@@ -44,9 +44,9 @@ jobs:
     runs-on: self-hosted
     needs: compress_filesystem_readonly
     steps:
-      - name: Make target 'build'
-        run: make build
+      - name: Make target 'build-lxc'
+        run: make build-lxc
       - uses: actions/upload-artifact@v3
         with:
-          name: image-${{env.os}}
+          name: image-${{env.os}}-lxc
           path: ./out
