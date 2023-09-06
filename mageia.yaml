@@ -61,7 +61,7 @@ files:
   types:
   - vm
 
-- path: /etc/dracut.conf.d/lxd.conf
+- path: /etc/dracut.conf.d/incus.conf
   generator: dump
   content: |-
     add_drivers+=virtio_scsi
