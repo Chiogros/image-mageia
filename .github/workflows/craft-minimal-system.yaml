@@ -15,4 +15,4 @@ jobs:
       - name: Clone repo
         uses: actions/checkout@v3 
       - name: Make target 'minimal-fs'
-        uses: ./.github/workflows/runs/craft-minimal-system.yaml
+        uses: ./.github/workflows/runs/craft-minimal-system.yaml@main

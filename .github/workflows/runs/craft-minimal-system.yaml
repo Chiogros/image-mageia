@@ -2,8 +2,10 @@ name: Craft minimal system
 on:
   workflow_call:
 
-runs:
-  using: composite
+jobs:
+  craft_minimal_system:
+  name: Craft minimal system
+  runs-on: self-hosted
   steps:
     - name: Make target 'minimal-fs'
       run: make minimal-fs
