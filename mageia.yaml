@@ -35,9 +35,9 @@ targets:
     - type: all
       content: |-
         lxc.arch = {{ image.architecture_kernel }}
-  lxd:
+  incus:
     vm:
-      size: 8589934592
+      size: 34359738368
       filesystem: ext4
 
 files:
