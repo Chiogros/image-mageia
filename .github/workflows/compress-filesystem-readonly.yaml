@@ -6,9 +6,15 @@ env:
   os: mageia
 
 jobs:
+  prepare_clean_repo:
+    name: Prepare clean repo
+    runs-on: self-hosted
+    steps:
+      - uses: Chiogros/prepare-clean-repo-action@main
   craft_minimal_system:
     name: Craft minimal system 
     runs-on: self-hosted
+    needs: prepare_clean_repo
     steps:
       - uses: ./.github/workflows/craft-minimal-system.yaml
   compress_filesystem_readonly:

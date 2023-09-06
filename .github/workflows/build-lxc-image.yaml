@@ -6,9 +6,15 @@ env:
   os: mageia
 
 jobs:
+  prepare_clean_repo:
+    name: Prepare clean repo
+    runs-on: self-hosted
+    steps:
+      - uses: Chiogros/prepare-clean-repo-action@main
   compress_filesystem_readonly:
     name: Compress filesystem read-only
     runs-on: self-hosted
+    needs: prepare_clean_repo
     steps:
       - uses: ./.github/workflows/compress-filesystem-readonly.yaml
   build_for_target:
