@@ -1,0 +1,7 @@
+name: Craft minimal system
+
+runs:
+  using: composite
+  steps:
+    - name: Make target 'minimal-fs'
+      run: make minimal-fs
