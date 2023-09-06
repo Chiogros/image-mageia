@@ -6,25 +6,20 @@ env:
   os: mageia
 
 jobs:
-  prepare_clean_repo:
-    name: Prepare clean repo
-    runs-on: self-hosted
-    steps:
-      - uses: Chiogros/prepare-clean-repo-action@main
-  craft_minimal_system:
-    name: Craft minimal system 
-    runs-on: self-hosted
-    needs: prepare_clean_repo
-    steps:
-      - uses: ./.github/workflows/craft-minimal-system.yaml
   compress_filesystem_readonly:
     name: Compress filesystem read-only
     runs-on: self-hosted
-    needs: craft_minimal_system
     steps:
+      - name: Clean old repo
+        run: sudo rm -rf .* *
+      - name: Clone repo
+        uses: actions/checkout@v3
+      - name: Craft minimal system
+        uses: ./.github/workflows/craft-minimal-system.yaml
       - name: Make target 'squash-fs'
-        run: make squash-fs
-      - uses: actions/upload-artifact@v3
+        uses: ./.github/workflows/compress-filesystem-readonly.yaml
+      - name: Upload squashfs
+        uses: ./.github/workflows/upload-squashfs.yaml
         with:
           name: ${{env.os}}.sqfs
           path: ${{env.os}}.sqfs

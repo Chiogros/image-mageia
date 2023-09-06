@@ -13,6 +13,6 @@ jobs:
       - name: Clean old repo
         run: sudo rm -rf .* *
       - name: Clone repo
-        run: actions/checkout@v3 
+        uses: actions/checkout@v3 
       - name: Make target 'minimal-fs'
         uses: ./.github/workflows/runs/craft-minimal-system.yaml
