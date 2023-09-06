@@ -1,0 +1,20 @@
+name: Craft minimal system
+on:
+  workflow_dispatch:
+
+env:
+  os: mageia
+
+jobs:
+  prepare_clean_repo:
+    name: Prepare clean repo
+    runs-on: self-hosted
+    steps:
+      - uses: ./.github/workflows/prepare-clean-repo.yaml
+  craft_minimal_system:
+    name: Craft minimal system 
+    runs-on: self-hosted
+    needs: prepare_clean_repo
+    steps:
+      - name: Make target 'minimal-fs'
+        run: make minimal-fs

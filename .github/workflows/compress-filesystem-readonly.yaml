@@ -1,0 +1,24 @@
+name: Compress filesystem read-only
+on:
+  workflow_dispatch:
+
+env:
+  os: mageia
+
+jobs:
+  craft_minimal_system:
+    name: Craft minimal system 
+    runs-on: self-hosted
+    steps:
+      - uses: ./.github/workflows/craft-minimal-system.yaml
+  compress_filesystem_readonly:
+    name: Compress filesystem read-only
+    runs-on: self-hosted
+    needs: craft_minimal_system
+    steps:
+      - name: Make target 'squash-fs'
+        run: make squash-fs
+      - uses: actions/upload-artifact@v3
+        with:
+          name: ${{env.os}}.sqfs
+          path: ${{env.os}}.sqfs
