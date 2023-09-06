@@ -51,7 +51,7 @@ Generated images are available in [`Releases`](https://github.com/Chiogros/image
 Proxmox allows to run LXC containers from publicly available templates, or from an uploaded one.
 
 #### GUI
-On WebUI, you can import Mageia's rootfs by going to: `Storage > CT Templates > Upload`
+On WebUI, you can import Mageia's `rootfs.tar.xz` by going to: `Storage > CT Templates > Upload`
 
 You can then create a new container.
 
