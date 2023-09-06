@@ -1,0 +1,7 @@
+name: Compress filesystem read-only
+
+runs:
+  using: composite
+  steps:
+    - name: Make target 'squash-fs'
+      run: make squash-fs
