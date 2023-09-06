@@ -1,8 +1,3 @@
-# Mageia LXC
-Everything to build a Mageia LXC container.
-
-> Please note that the process is in heavy development. Do not use it (for the moment).
-
 ## Steps
 1. [Build Distrobuilder](https://github.com/lxc/distrobuilder#installing-from-source)
 2. Set mapped UID/GID
@@ -40,9 +35,9 @@ sudo distrobuilder build-dir mageia.yaml
 sudo distrobuilder pack-lxc mageia.yaml rootfs/ out/
 sudo lxc-create --name mageia8 --template local -- --fstree out/rootfs.tar.xz --metadata out/meta.tar.xz
 sudo lxc-start -n mageia8 -F
-https://jenkins.linuxcontainers.org/job/image-fedora/architecture=amd64,release=37,variant=default/lastBuild/
-https://github.com/lxc/lxc-ci/blob/master/bin/build-distro
 ```
 
+https://jenkins.linuxcontainers.org/job/image-fedora/architecture=amd64,release=37,variant=default/lastBuild/
+https://github.com/lxc/lxc-ci/blob/master/bin/build-distro
 https://github.com/lxc/lxc-ci/pull/778/files
 https://github.com/lxc/distrobuilder/pull/766
