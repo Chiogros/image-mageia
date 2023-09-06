@@ -29,6 +29,10 @@ build-lxc: $(DIST).yaml
 	$(info Packing container...)
 	sudo $(distrobuilder) build-lxc $(DIST).yaml $(OUT)
 
+build-incus: $(DIST).yaml
+	$(info Packing container...)
+	sudo $(distrobuilder) build-incus $(DIST).yaml $(OUT) --vm --type=split
+
 lxc-create:
 	lxc-create --name $(CT_NAME) --template local -- --fstree $(OUT)/rootfs.tar.xz --metadata $(OUT)/meta.tar.xz
 
