@@ -1,44 +1,16 @@
 name: Build LXC image
 on:
   workflow_dispatch:
-#  push:
-#    branches:
-#      - main
 
 env:
   os: mageia
 
 jobs:
-  clean_repo:
-    name: Clean old repo
-    runs-on: self-hosted
-    steps:
-      - name: Clean old repo
-        run: sudo rm -rf "$PWD/../${{github.event.repository.name}}"
-  clone_repo:
-    name: Clone repo
-    runs-on: self-hosted
-    needs: clean_repo
-    steps:
-      - uses: actions/checkout@v3
-  craft_minimal_system:
-    name: Craft minimal system 
-    runs-on: self-hosted
-    needs: clone_repo
-    steps:
-      - name: Make target 'minimal-fs'
-        run: make minimal-fs
   compress_filesystem_readonly:
     name: Compress filesystem read-only
     runs-on: self-hosted
-    needs: craft_minimal_system
     steps:
-      - name: Make target 'squash-fs'
-        run: make squash-fs
-      - uses: actions/upload-artifact@v3
-        with:
-          name: ${{env.os}}.sqfs
-          path: ${{env.os}}.sqfs
+      - uses: ./.github/workflows/compress-filesystem-readonly.yaml
   build_for_target:
     name: Build for target
     runs-on: self-hosted
