@@ -10,7 +10,7 @@ jobs:
     name: Prepare clean repo
     runs-on: self-hosted
     steps:
-      - uses: Chiogros/image-mageia/.github/workflows/prepare-clean-repo.yaml
+      - uses: Chiogros/image-mageia/.github/workflows/prepare-clean-repo.yaml@main
   craft_minimal_system:
     name: Craft minimal system 
     runs-on: self-hosted
