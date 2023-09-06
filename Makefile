@@ -38,4 +38,4 @@ lxc-start:
 clean:
 	lxc-stop $(CT_NAME) || true
 	lxc-destroy $(CT_NAME) || true
-	rm -rf $(ROOTFS) $(OUT) $(CT_NAME) $(CT_NAME).sqfs
+	rm -rf $(OUT) $(DIST).sqfs
