@@ -1,7 +1,0 @@
-name: Upload squashfs
-
-runs:
-  using: composite
-  steps:
-    - name: Upload squashfs
-      uses: actions/upload-artifact@v3
