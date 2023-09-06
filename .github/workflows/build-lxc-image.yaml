@@ -24,15 +24,20 @@ jobs:
     runs-on: self-hosted
     needs: clone_repo
     steps:
-      - name: Making 'minimal-fs'
+      - name: Make 'minimal-fs'
         run: make minimal-fs
   compress_filesystem_readonly:
     name: Compress filesystem read-only
     runs-on: self-hosted
     needs: craft_minimal_system
     steps:
-      - name: Making 'squash-fs'
+      - name: Make 'squash-fs'
         run: make squash-fs
+      - name: Upload image
+        uses: actions/upload-artifact@v3
+        with:
+          name: ${{env.os}}.sqfs
+          path: ${{env.os}}.sqfs
   build_for_target:
     name: Build for target
     runs-on: self-hosted
