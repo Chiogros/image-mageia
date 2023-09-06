@@ -1,7 +1,0 @@
-name: Clone repo
-
-runs:
-  using: composite
-  steps:
-    - name: Clone repo
-      run: actions/checkout@v3

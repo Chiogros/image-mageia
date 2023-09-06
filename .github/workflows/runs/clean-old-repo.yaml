@@ -1,7 +1,0 @@
-name: Clean old repo
-
-runs:
-  using: composite
-  steps:
-    - name: Clean old repo
-      run: sudo rm -rf .* *
