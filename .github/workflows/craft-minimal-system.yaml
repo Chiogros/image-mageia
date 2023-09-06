@@ -6,15 +6,13 @@ env:
   os: mageia
 
 jobs:
-  prepare_clean_repo:
-    name: Prepare clean repo
-    runs-on: self-hosted
-    steps:
-      - uses: Chiogros/prepare-clean-repo-action@main
   craft_minimal_system:
     name: Craft minimal system 
     runs-on: self-hosted
-    needs: prepare_clean_repo
     steps:
+      - name: Clean old repo
+        uses: ./.github/workflows/runs/clean-old-repo.yaml
+      - name: Clone repo
+        uses: ./.github/workflows/runs/clone-repo.yaml
       - name: Make target 'minimal-fs'
-        run: make minimal-fs
+        uses: ./.github/workflows/runs/craft-minimal-system.yaml
