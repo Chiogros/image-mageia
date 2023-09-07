@@ -57,7 +57,7 @@ jobs:
           path: ./out
           keys: sqfs-${{ hashFiles('./${{ env.os }}.sqfs') }}
       - name: Make target 'build-lxc'
-        if: steps.filesystem-readonly.outputs.cache-hit != "true"
+        if: steps.filesystem-readonly.outputs.cache-hit != 'true'
         run: make build-lxc
       - name: Upload image
         uses: actions/upload-artifact@v3
