@@ -1,4 +1,4 @@
-name: Build Incus image
+name: Build LXC image
 on:
   workflow_dispatch:
 
@@ -24,29 +24,39 @@ jobs:
     runs-on: self-hosted
     needs: clone_repo
     steps:
+      - name: Cache squash-fs
+        id: squash-fs
+        uses: actions/cache@v3
+        with:
+          path: ${{ env.os }}.sqfs
+          key: ${{ env.os }}.sqfs-${{ hashFiles('./Makefile') }}
       - name: Make 'minimal-fs'
+        if: steps.squash-fs.outputs.cache-hit != 'true'
         run: make minimal-fs
-  compress_filesystem_readonly:
-    name: Compress filesystem read-only
-    runs-on: self-hosted
-    needs: craft_minimal_system
-    steps:
       - name: Make 'squash-fs'
+        if: steps.squash-fs.outputs.cache-hit != 'true'
         run: make squash-fs
       - name: Upload image
         uses: actions/upload-artifact@v3
         with:
-          name: ${{env.os}}.sqfs
-          path: ${{env.os}}.sqfs
+          name: ${{ env.os }}.sqfs
+          path: ${{ env.os }}.sqfs
   build_for_target:
     name: Build for target
     runs-on: self-hosted
-    needs: compress_filesystem_readonly
+    needs: craft_minimal_system
     steps:
+      - name: Cache build
+        id: build
+        uses: actions/cache@v3
+        with:
+          path: ./out/rootfs.qcow2
+          key: image-${{ env.os }}-incus-${{ hashFiles('*.sqfs', '*.yaml') }}
       - name: Make target 'build-incus'
+        if: steps.build.outputs.cache-hit != 'true'
         run: make build-incus
       - name: Upload image
         uses: actions/upload-artifact@v3
         with:
-          name: image-${{env.os}}-incus
-          path: ./out
+          name: image-${{ env.os }}-incus
+          path: ./out/rootfs.qcow2
