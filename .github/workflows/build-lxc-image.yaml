@@ -29,7 +29,7 @@ jobs:
         uses: actions/cache@v3
         with:
           path: ${{ env.os }}.sqfs
-          keys: makefile-${{ hashFiles("./Makefile") }}
+          keys: makefile-${{ hashFiles('./Makefile') }}
       - name: Make 'minimal-fs'
         if: steps.minimal-system.outputs.cache-hit != "true"
         run: make minimal-fs
@@ -56,7 +56,7 @@ jobs:
         uses: actions/cache@v3
         with:
           path: ./out
-          keys: sqfs-${{ hashFiles("./${{ env.os }}.sqfs") }}
+          keys: sqfs-${{ hashFiles('./${{ env.os }}.sqfs') }}
       - name: Make target 'build-lxc'
         if: steps.filesystem-readonly.outputs.cache-hit != "true"
         run: make build-lxc
