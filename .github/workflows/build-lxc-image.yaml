@@ -24,7 +24,14 @@ jobs:
     runs-on: self-hosted
     needs: clone_repo
     steps:
+      - name: Cache minimal-fs
+        id: minimal-system
+        uses: actions/cache@v3
+        with:
+          path: ${{ env.os }}.sqfs
+          keys: makefile-${{ hashFiles("Makefile") }}
       - name: Make 'minimal-fs'
+        if: steps.minimal-system.outputs.cache-hit != "true"
         run: make minimal-fs
   compress_filesystem_readonly:
     name: Compress filesystem read-only
@@ -32,18 +39,26 @@ jobs:
     needs: craft_minimal_system
     steps:
       - name: Make 'squash-fs'
+        if: craft_minimal_system.steps.minimal-system.outputs.cache-git != "true"
         run: make squash-fs
       - name: Upload image
         uses: actions/upload-artifact@v3
         with:
-          name: ${{env.os}}.sqfs
-          path: ${{env.os}}.sqfs
+          name: ${{ env.os }}.sqfs
+          path: ${{ env.os }}.sqfs
   build_for_target:
     name: Build for target
     runs-on: self-hosted
     needs: compress_filesystem_readonly
     steps:
+      - name: Cache squash-fs
+        id: filesystem-readonly
+        uses: actions/cache@v3
+        with:
+          path: ./out
+          keys: sqfs-${{ hashFiles("${{ env.os }}.sqfs") }}
       - name: Make target 'build-lxc'
+        if: steps.filesystem-readonly.outputs.cache-hit != "true"
         run: make build-lxc
       - name: Upload image
         uses: actions/upload-artifact@v3
