@@ -39,7 +39,6 @@ jobs:
     needs: craft_minimal_system
     steps:
       - name: Make 'squash-fs'
-        if: craft_minimal_system.steps.minimal-system.outputs.cache-git != 'true'
         run: make squash-fs
       - name: Upload image
         uses: actions/upload-artifact@v3
