@@ -1,4 +1,4 @@
-name: Build LXC image
+name: Build Incus image
 on:
   workflow_dispatch:
 
