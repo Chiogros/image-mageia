@@ -53,7 +53,7 @@ jobs:
           path: |
             ./out/rootfs.tar.xz
             ./out/meta.tar.xz
-          key: image-${{ env.os }}-lxc-${{ hashFiles('./${{ env.os }}.sqfs', './${{ env.os }}.yaml') }}
+          key: image-${{ env.os }}-lxc-${{ hashFiles('*.sqfs', '*.yaml') }}
       - name: Make target 'build-lxc'
         if: steps.build.outputs.cache-hit != 'true'
         run: make build-lxc
@@ -63,4 +63,4 @@ jobs:
           name: image-${{ env.os }}-lxc
           path: |
             ./out/rootfs.tar.xz
-            ./out/rootfs.tar.xz
+            ./out/meta.tar.xz
