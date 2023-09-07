@@ -24,17 +24,17 @@ jobs:
     runs-on: self-hosted
     needs: clone_repo
     steps:
-      - name: Cache minimal-fs
-        id: minimal-system
+      - name: Cache squash-fs
+        id: squash-fs
         uses: actions/cache@v3
         with:
           path: ${{ env.os }}.sqfs
-          key: makefile-${{ hashFiles('./Makefile') }}
+          key: ${{ env.os }}.sqfs-${{ hashFiles('./Makefile') }}
       - name: Make 'minimal-fs'
-        if: steps.minimal-system.outputs.cache-hit != 'true'
+        if: steps.squash-fs.outputs.cache-hit != 'true'
         run: make minimal-fs
       - name: Make 'squash-fs'
-        if: steps.minimal-system.outputs.cache-hit != 'true'
+        if: steps.squash-fs.outputs.cache-hit != 'true'
         run: make squash-fs
       - name: Upload image
         uses: actions/upload-artifact@v3
@@ -46,17 +46,21 @@ jobs:
     runs-on: self-hosted
     needs: craft_minimal_system
     steps:
-      - name: Cache build for target
-        id: filesystem-readonly
+      - name: Cache build
+        id: build
         uses: actions/cache@v3
         with:
-          path: ./out
-          key: sqfs-${{ hashFiles('./${{ env.os }}.sqfs') }}
+          path: |
+            ./out/rootfs.tar.xz
+            ./out/meta.tar.xz
+          key: image-${{ env.os }}-lxc-${{ hashFiles('./${{ env.os }}.sqfs', './${{ env.os }}.yaml') }}
       - name: Make target 'build-lxc'
-        if: steps.filesystem-readonly.outputs.cache-hit != 'true'
+        if: steps.build.outputs.cache-hit != 'true'
         run: make build-lxc
       - name: Upload image
         uses: actions/upload-artifact@v3
         with:
-          name: image-${{env.os}}-lxc
-          path: ./out
+          name: image-${{ env.os }}-lxc
+          path: |
+            ./out/rootfs.tar.xz
+            ./out/rootfs.tar.xz
