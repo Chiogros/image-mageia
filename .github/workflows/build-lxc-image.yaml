@@ -33,12 +33,8 @@ jobs:
       - name: Make 'minimal-fs'
         if: steps.minimal-system.outputs.cache-hit != 'true'
         run: make minimal-fs
-  compress_filesystem_readonly:
-    name: Compress filesystem read-only
-    runs-on: self-hosted
-    needs: craft_minimal_system
-    steps:
       - name: Make 'squash-fs'
+        if: steps.minimal-system.outputs.cache-hit != 'true'
         run: make squash-fs
       - name: Upload image
         uses: actions/upload-artifact@v3
@@ -48,9 +44,9 @@ jobs:
   build_for_target:
     name: Build for target
     runs-on: self-hosted
-    needs: compress_filesystem_readonly
+    needs: craft_minimal_system
     steps:
-      - name: Cache squash-fs
+      - name: Cache build for target
         id: filesystem-readonly
         uses: actions/cache@v3
         with:
