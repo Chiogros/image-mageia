@@ -1,0 +1,64 @@
+name: Build Docker image
+on:
+  workflow_dispatch:
+
+env:
+  os: mageia
+
+jobs:
+  clean_old_repo:
+    name: Clean old repo
+    runs-on: self-hosted
+    steps:
+      - name: Clean old repo
+        run: sudo rm -rf .* *
+  clone_repo:
+    name: Clone repo
+    runs-on: self-hosted
+    needs: clean_old_repo
+    steps:
+      - name: Clone repo
+        uses: actions/checkout@v3
+  craft_minimal_system:
+    name: Craft minimal system
+    runs-on: self-hosted
+    needs: clone_repo
+    steps:
+      - name: Cache squash-fs
+        id: squash-fs
+        uses: actions/cache@v3
+        with:
+          path: ${{ env.os }}.sqfs
+          key: ${{ env.os }}.sqfs-${{ hashFiles('./Makefile') }}
+      - name: Make 'minimal-fs'
+        if: steps.squash-fs.outputs.cache-hit != 'true'
+        run: make minimal-fs
+      - name: Make 'squash-fs'
+        if: steps.squash-fs.outputs.cache-hit != 'true'
+        run: make squash-fs
+      - name: Upload image
+        uses: actions/upload-artifact@v3
+        with:
+          name: ${{ env.os }}.sqfs
+          path: ${{ env.os }}.sqfs
+  build_for_target:
+    name: Build for target
+    runs-on: self-hosted
+    needs: craft_minimal_system
+    steps:
+      - name: Cache build
+        id: build
+        uses: actions/cache@v3
+        with:
+          path: |
+            ./docker.tar.xz
+          key: image-${{ env.os }}-docker-${{ hashFiles('*.sqfs', '*.yaml') }}
+      - name: Make target 'build-docker'
+        if: steps.build.outputs.cache-hit != 'true'
+        run: make build-docker
+      - name: Upload image
+        uses: actions/upload-artifact@v3
+        with:
+          name: image-${{ env.os }}-docker
+          path: |
+            ./docker.tar.xz
