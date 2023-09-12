@@ -50,6 +50,7 @@ Makefile target: `build`
 
 ## Testing
 Stable generated images are available on [`Releases`](https://github.com/Chiogros/image-mageia/tags) page.
+
 Testing generated images are available on [`Actions`](https://github.com/Chiogros/image-mageia/actions) page.
 
 ### LXC
