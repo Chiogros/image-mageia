@@ -36,7 +36,7 @@ build-incus: $(DIST).yaml
 build-docker: $(DIST).yaml
 	$(info Packing container...)
 	sudo unsquashfs $(DIST).sqfs
-	sudo tar -C squashfs-root -c . -fJ ../docker.tar.gz
+	sudo tar -fJ docker.tar.xz -C squashfs-root -c .
 
 lxc-create:
 	lxc-create --name $(CT_NAME) --template local -- --fstree $(OUT)/rootfs.tar.xz --metadata $(OUT)/meta.tar.xz
