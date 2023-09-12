@@ -1,9 +1,10 @@
-# Mageia LXC and Incus (LXD) templates
+# Mageia container templates for LXC, Incus/LXD, Docker
 A lightweight template for easy deployments.
 
 ## Status
 [![Build LXC image](https://github.com/Chiogros/image-mageia/actions/workflows/build-lxc-image.yaml/badge.svg)](https://github.com/Chiogros/image-mageia/actions/workflows/build-lxc-image.yaml)
 [![Build Incus image](https://github.com/Chiogros/image-mageia/actions/workflows/build-incus-image.yaml/badge.svg)](https://github.com/Chiogros/image-mageia/actions/workflows/build-incus-image.yaml)
+[![Build Docker image](https://github.com/Chiogros/image-mageia/actions/workflows/build-docker-image.yaml/badge.svg)](https://github.com/Chiogros/image-mageia/actions/workflows/build-docker-image.yaml)
 
 ## Development
 Multiple stages are needed to go from an empty filesystem to a ready-to-go Mageia.

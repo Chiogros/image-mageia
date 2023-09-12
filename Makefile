@@ -33,6 +33,11 @@ build-incus: $(DIST).yaml
 	$(info Packing container...)
 	sudo $(distrobuilder) build-incus $(DIST).yaml $(OUT) --vm --type=split
 
+build-docker: $(DIST).yaml
+	$(info Packing container...)
+	sudo unsquashfs $(DIST).sqfs
+	sudo tar -C squashfs-root -c . -fJ ../docker.tar.gz
+
 lxc-create:
 	lxc-create --name $(CT_NAME) --template local -- --fstree $(OUT)/rootfs.tar.xz --metadata $(OUT)/meta.tar.xz
 
