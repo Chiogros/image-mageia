@@ -1,5 +1,7 @@
-# Mageia container templates for LXC, Incus/LXD, Docker
+# Mageia container templates
 A lightweight template for easy deployments.
+
+Allows builing of LXC, Incus/LXD and Docker images.
 
 ## Status
 [![Build LXC image](https://github.com/Chiogros/image-mageia/actions/workflows/build-lxc-image.yaml/badge.svg)](https://github.com/Chiogros/image-mageia/actions/workflows/build-lxc-image.yaml)
@@ -47,18 +49,34 @@ Makefile target: `build`
 2. Packing for LXC/LXD: produce `rootfs` and `meta` data files, plus `qcow2` for LXD
 
 ## Testing
-Generated images are available in [`Releases`](https://github.com/Chiogros/image-mageia-lxc/tags) page.
+Stable generated images are available on [`Releases`](https://github.com/Chiogros/image-mageia/tags) page.
+Testing generated images are available on [`Actions`](https://github.com/Chiogros/image-mageia/actions) page.
 
-### Proxmox
+### LXC
+#### Proxmox
 Proxmox allows to run LXC containers from publicly available templates, or from an uploaded one.
 
-#### GUI
+##### GUI
 On WebUI, you can import Mageia's `rootfs.tar.xz` by going to: `Storage > CT Templates > Upload`
 
 You can then create a new container.
 
-#### CLI
+##### CLI
 TDB
 
-### LXC
+#### LXC CLI
 TDB
+
+### LXD
+TBD
+
+### Docker
+You can import Mageia's `docker.tar.xz` in registry:
+```Sh
+$ docker import ./docker.tar.xz mageia:<version>
+```
+
+Then test the image:
+```Sh
+$ docker run -it mageia:<version> bash
+```
