@@ -147,9 +147,9 @@ files:
   variants:
   - cloud
 
-- generator: incus-agent
-  types:
-  - vm
+    #- generator: incus-agent
+    #types:
+    #- vm
 
 packages:
   custom_manager:
