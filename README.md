@@ -1,7 +1,7 @@
 # Mageia container templates
 A lightweight template for easy deployments.
 
-Allows builing of LXC, Incus/LXD and Docker images.
+Allows builing of LXC, Incus and Docker images.
 
 ## Status
 [![Build LXC image](https://github.com/Chiogros/image-mageia/actions/workflows/build-lxc-image.yaml/badge.svg)](https://github.com/Chiogros/image-mageia/actions/workflows/build-lxc-image.yaml)
@@ -46,7 +46,7 @@ Makefile target: `build`
 
 `Distrobuilder` is used for:
 1. Applying system modifications: basic config, set locale, fix symlinks, ...
-2. Packing for LXC/LXD: produce `rootfs` and `meta` data files, plus `qcow2` for LXD
+2. Packing for LXC: produce `rootfs` and `meta` data files, plus `qcow2` for Incus
 
 ## Testing
 Stable generated images are available on [`Releases`](https://github.com/Chiogros/image-mageia/tags) page.
@@ -62,14 +62,15 @@ On WebUI, you can import Mageia's `rootfs.tar.xz` by going to: `Storage > CT Tem
 
 You can then create a new container.
 
-##### CLI
-TDB
-
 #### LXC CLI
 TDB
 
-### LXD
-TBD
+### Incus
+#### QEMU
+Through GUI `virt-manager` or CLI `qemu` tool.
+
+#### VirtualBox
+Search on the Internet how to convert `qcow2` files to `ova`.
 
 ### Docker
 You can import Mageia's `docker.tar.xz` in registry:
