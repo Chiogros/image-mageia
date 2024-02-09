@@ -10,10 +10,10 @@ distrobuilder = /usr/local/bin/distrobuilder
 brctl = brctl
 
 minimal-fs:
-	mkdir -v $(CT_PATH)
+	[ -d "$(CT_PATH)" ] || sudo mkdir -v $(CT_PATH)
 
 	$(info Initializing RPM database...)
-	rpm --rebuilddb --root=$(CT_PATH)
+	sudo rpm --rebuilddb --root=$(CT_PATH)
 
 	$(info Configuring repositories...)
 	sudo urpmi.addmedia --distrib http://ftp.free.fr/mirrors/mageia.org/distrib/$(DIST_VER)/x86_64 --urpmi-root $(CT_PATH)
@@ -47,4 +47,4 @@ lxc-start:
 clean:
 	lxc-stop $(CT_NAME) || true
 	lxc-destroy $(CT_NAME) || true
-	rm -rf $(OUT) $(DIST).sqfs
+	rm -rf $(OUT) $(DIST).sqfs || true

@@ -4,7 +4,7 @@ image:
 
 source:
   downloader: rootfs-http
-  url: file:///home/runner/_work/image-mageia/image-mageia/mageia.sqfs
+  url: file:///home/runner/actions-runner/_work/image-mageia/image-mageia/mageia.sqfs
   skip_verification: true
 
 targets:
@@ -227,7 +227,6 @@ packages:
 
   - packages:
     - kernel-server
-      #    - shim
     - libproxy-pacrunner
     - dracut
     action: install
@@ -304,7 +303,7 @@ actions:
 
     exit 0
   types:
-    - vm
+  - vm
 
 - trigger: post-files
   action: |-

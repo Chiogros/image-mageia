@@ -1,7 +1,7 @@
 # Mageia container templates
 A lightweight template for easy deployments.
 
-Allows builing of LXC, Incus and Docker images.
+Allows building of LXC, Incus and Docker images.
 
 ## Status
 [![Build LXC image](https://github.com/Chiogros/image-mageia/actions/workflows/build-lxc-image.yaml/badge.svg)](https://github.com/Chiogros/image-mageia/actions/workflows/build-lxc-image.yaml)
