@@ -37,7 +37,6 @@ jobs:
         if: steps.squash-fs.outputs.cache-hit != 'true'
         run: make squash-fs
       - name: Upload image
-        if: steps.squash-fs.outputs.cache-hit != 'true'
         uses: actions/upload-artifact@v4
         with:
           name: ${{ env.os }}.sqfs
@@ -51,7 +50,7 @@ jobs:
         id: build
         uses: actions/cache@v4
         with:
-          path: ./out/rootfs.qcow2
+          path: ./out/disk.qcow2
           key: image-${{ env.os }}-incus-${{ hashFiles('*.sqfs', '*.yaml') }}
       - name: Make target 'build-incus'
         if: steps.build.outputs.cache-hit != 'true'
@@ -60,4 +59,9 @@ jobs:
         uses: actions/upload-artifact@v4
         with:
           name: image-${{ env.os }}-incus
-          path: ./out/rootfs.qcow2
+          path: ./out/disk.qcow2
+      - name: Upload metadata
+        uses: actions/upload-artifact@v4
+        with:
+          name: image-${{ env.os }}-incus-meta
+          path: ./out/incus.tar.xz
