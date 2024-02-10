@@ -220,7 +220,7 @@ packages:
     - cloud
 
   - packages:
-    - grub2-efi
+    - grub2-common
     action: install
     types:
     - vm
@@ -286,12 +286,9 @@ actions:
     grub2-mkconfig -o "${target}"
     sed -i "s#root=[^ ]*#root=/dev/sda2#g" "${target}"
 
-    sed -Eri "s#^(linux|initrd) .+/overlay/#\1 /#g" /boot/loader/entries/*
-    sed -ri 's#^options .+#options $kernelopts#g' /boot/loader/entries/*
-
     # Regenerate initramfs
-    kver=$(ls /boot/initramfs-*.img | sed -r 's#.*initramfs-(.+)\.img#\1#')
-    dracut --kver "${kver}" -f
+    kver=$(ls /boot/initrd*.img | sed -r 's#.*initramfs-(.+)\.img#\1#')
+    #dracut --kver "${kver}" -f
 
     # Unmask all masked unit files
     for f in $(find /etc/systemd/system -type l); do
