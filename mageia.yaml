@@ -202,11 +202,11 @@ packages:
     variants:
     - cloud
 
-  - packages:
-    - grub2-common
-    action: install
-    types:
-    - vm
+      # - packages:
+      #   - grub2-common
+      #   action: install
+      #   types:
+      #   - vm
 
   - packages:
     - kernel-server
@@ -252,23 +252,28 @@ actions:
     # Remove the "Container Image" string as this is going to be am VM
     #sed -i 's/[ ]*(Container Image)//;/^VARIANT/d' /etc/os-release
 
+    urpmi grub2-efi --no-recommends
+    grub2-install --target=x86_64-efi --efi-directory=/boot/efi --bootloader-id=mageia --recheck
+
+    #target="/boot/EFI/EFI/mageia/grub.cfg"
+    target="/boot/grub2/grub.cfg"
+    grub2-mkconfig -o "${target}"
+    sed -i "s#root=[^ ]*#root=/dev/sda2#g" "${target}"
+
     # Regenerate initramfs
     kver=$(ls -1 /boot/initrd-*.img | head -1 | sed -r 's#.*initrd-(.+)\.img#\1#')
     dracut --kver "${kver}" -f
 
-    target="$(readlink -f /etc/grub2-efi.cfg)"
-    grub2-mkconfig -o "${target}"
-    sed -i "s#root=[^ ]*#root=/dev/sda2#g" "${target}"
+    ls -lhR /boot
 
     # Wipe grub environment block
-    rm -f /boot/EFI/EFI/mageia/grubenv
-  types:
-  - vm
+    [ -f /boot/EFI/EFI/mageia/grubenv ] && rm -f /boot/EFI/EFI/mageia/grubenv
 
-- trigger: post-files
-  action: |-
-    #!/bin/sh
     # Unmask all masked unit files
     for f in $(find /etc/systemd/system -type l); do
       [ "$(readlink ${f})" = "/dev/null" ] && rm "${f}"
     done
+
+    exit 0
+  types:
+  - vm
