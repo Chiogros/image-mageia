@@ -59,9 +59,4 @@ jobs:
         uses: actions/upload-artifact@v4
         with:
           name: image-${{ env.os }}-incus
-          path: ./out/disk.qcow2
-      - name: Upload metadata
-        uses: actions/upload-artifact@v4
-        with:
-          name: image-${{ env.os }}-incus-meta
-          path: ./out/incus.tar.xz
+          path: ./out/*
