@@ -31,7 +31,7 @@ build-lxc: $(DIST).yaml
 
 build-incus: $(DIST).yaml
 	$(info Packing container...)
-	sudo $(distrobuilder) build-incus $(DIST).yaml $(OUT) --vm --type=split
+	sudo $(distrobuilder) build-incus $(DIST).yaml $(OUT) --type=split --vm
 
 build-docker: $(DIST).yaml
 	$(info Packing container...)
