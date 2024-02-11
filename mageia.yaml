@@ -253,7 +253,7 @@ actions:
     #sed -i 's/[ ]*(Container Image)//;/^VARIANT/d' /etc/os-release
 
     # Regenerate initramfs
-    kver=$(ls /boot/initrd*.img | sed -r 's#.*initrd-(.+)\.img#\1#')
+    kver=$(ls -1 /boot/initrd-*.img | head -1 | sed -r 's#.*initrd-(.+)\.img#\1#')
     dracut --kver "${kver}" -f
 
     target="$(readlink -f /etc/grub2-efi.cfg)"
