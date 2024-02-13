@@ -202,12 +202,6 @@ packages:
     variants:
     - cloud
 
-      # - packages:
-      #   - grub2-common
-      #   action: install
-      #   types:
-      #   - vm
-
   - packages:
     - kernel-server
     - libproxy-pacrunner
@@ -247,33 +241,25 @@ actions:
 - trigger: post-files
   action: |-
     #!/bin/sh
+    # Enable verbose output
     set -eux
 
-    # Remove the "Container Image" string as this is going to be am VM
-    #sed -i 's/[ ]*(Container Image)//;/^VARIANT/d' /etc/os-release
-
+    # rsync fails when grub2-efi is installed through
+    # "packages" sections, but works when set here
     urpmi grub2-efi --no-recommends
-    grub2-install --target=x86_64-efi --efi-directory=/boot/efi --bootloader-id=mageia --recheck
 
-    #target="/boot/EFI/EFI/mageia/grub.cfg"
+    # Create grubx64 EFI image
+    grub2-install --target=x86_64-efi --efi-directory=/boot/efi --bootloader-id=mageia --removable
+
+    # Create grub config files
     target="/boot/grub2/grub.cfg"
     grub2-mkconfig -o "${target}"
+
+    # Hardcode rootfs device
     sed -i "s#root=[^ ]*#root=/dev/sda2#g" "${target}"
 
     # Regenerate initramfs
     kver=$(ls -1 /boot/initrd-*.img | head -1 | sed -r 's#.*initrd-(.+)\.img#\1#')
-    dracut --kver "${kver}" -f
-
-    ls -lhR /boot
-
-    # Wipe grub environment block
-    [ -f /boot/EFI/EFI/mageia/grubenv ] && rm -f /boot/EFI/EFI/mageia/grubenv
-
-    # Unmask all masked unit files
-    for f in $(find /etc/systemd/system -type l); do
-      [ "$(readlink ${f})" = "/dev/null" ] && rm "${f}"
-    done
-
-    exit 0
+    dracut --kver "${kver}" --hostonly --force
   types:
   - vm
