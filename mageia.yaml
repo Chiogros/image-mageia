@@ -254,6 +254,6 @@ actions:
 
     # Regenerate initramfs
     kver=$(ls -1 /boot/initrd-*.img | head -1 | sed -r 's#.*initrd-(.+)\.img#\1#')
-    dracut --kver "${kver}" --hostonly --force
+    dracut --kver "${kver}" --force
   types:
   - vm
