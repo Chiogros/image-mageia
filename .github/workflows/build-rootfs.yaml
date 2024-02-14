@@ -1,0 +1,34 @@
+name: Build rootfs
+on:
+  workflow_call:
+
+env:
+  os: mageia
+
+jobs:
+  # Checkout repository is needed before use.
+  # See checkout-self-hosted.yaml
+  build-rootfs:
+    name: Build rootfs
+    runs-on: self-hosted
+    steps:
+      - name: Cache squash fs
+        id: squash-fs
+        uses: actions/cache@v4
+        with:
+          path: ${{ env.os }}.sqfs
+          key: ${{ env.os }}.sqfs-${{ hashFiles('./Makefile') }}
+
+      - name: Make minimal-fs
+        if: steps.squash-fs.outputs.cache-hit != 'true'
+        run: make minimal-fs
+
+      - name: Make squash-fs
+        if: steps.squash-fs.outputs.cache-hit != 'true'
+        run: make squash-fs
+
+      - name: Upload image
+        uses: actions/upload-artifact@v4
+        with:
+          name: ${{ env.os }}.sqfs
+          path: ${{ env.os }}.sqfs
