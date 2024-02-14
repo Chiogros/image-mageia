@@ -1,10 +1,10 @@
 DIST = mageia
 DIST_VER = 9
-CT_NAME := $(DIST)$(DIST_VER)
-CT_PATH := $(shell pwd)/$(CT_NAME)
-
 ROOTFS = rootfs
 OUT = out
+
+CT_NAME := $(DIST)$(DIST_VER)
+CT_PATH := $(shell pwd)/$(CT_NAME)
 
 distrobuilder = /usr/local/bin/distrobuilder
 brctl = brctl
@@ -38,13 +38,6 @@ build-docker: $(DIST).yaml
 	sudo unsquashfs $(DIST).sqfs
 	sudo tar -C squashfs-root -c . -f docker.tar.xz --xz
 
-lxc-create:
-	lxc-create --name $(CT_NAME) --template local -- --fstree $(OUT)/rootfs.tar.xz --metadata $(OUT)/meta.tar.xz
-
-lxc-start:
-	lxc-start -n $(CT_NAME)
-
 clean:
-	lxc-stop $(CT_NAME) || true
-	lxc-destroy $(CT_NAME) || true
-	rm -rf $(OUT) $(DIST).sqfs || true
+	[ -d "$(OUT)" ] && rm -rf $(OUT)
+	[ -f "$(DIST).sqfs" ] && rm "$(DIST).sqfs"
