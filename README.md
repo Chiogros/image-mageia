@@ -10,6 +10,13 @@ Build LXC, Incus and Docker images of [Mageia](https://www.mageia.org).
 
 ## Installation and usage
 
+Releases version names are set as follow:
+- 1st digit: official Mageia version
+- 2nd digit: major image release
+- 3rd digit: minor image release
+
+> e.g. v9.1.1: image release 1.1.0 for Mageia 9
+
 Stable images are available on
 [`Releases`](https://github.com/Chiogros/image-mageia/tags) page.
 
