@@ -1,0 +1,19 @@
+name: Checkout repository
+on:
+  workflow_call:
+
+jobs:
+  clean-stale-repo:
+    name: Clean stale repo
+    runs-on: self-hosted
+    steps:
+      - name: Clean stale repo
+        run: sudo rm -rf .* * || true
+
+  clone-repo:
+    name: Clone repo
+    runs-on: self-hosted
+    needs: clean-stale-repo
+    steps:
+      - name: Clone repo
+        uses: actions/checkout@v4
