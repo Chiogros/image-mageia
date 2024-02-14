@@ -164,7 +164,6 @@ packages:
   cleanup: true
   sets:
   - packages:
-    - cpio
     - file
     - findutils
     - gettext
@@ -173,19 +172,13 @@ packages:
     - ipcalc
     - iproute
     - iputils
-    - kbd
-    - kmod
-    - openssh-clients
     - passwd
-    - pigz
     - policycoreutils
     - procps-ng
     - sudo
     - which
     action: install
     early: true
-    types:
-      - vm
 
   - packages:
     - cloud-init
@@ -203,9 +196,10 @@ packages:
     - cloud
 
   - packages:
-    - kernel-server
-    - libproxy-pacrunner
     - dracut
+    - kernel-server
+    - kmod
+    - libproxy-pacrunner
     action: install
     types:
     - vm
