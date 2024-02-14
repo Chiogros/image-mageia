@@ -1,24 +1,19 @@
 # Mageia container templates
 
-A lightweight template for easy deployments.
-
-Allows building of LXC, Incus and Docker images.
+Build LXC, Incus and Docker images of [Mageia](https://www.mageia.org).
 
 ## Status
 
-[![Build LXC
-image](https://github.com/Chiogros/image-mageia/actions/workflows/build-lxc-image.yaml/badge.svg)](https://github.com/Chiogros/image-mageia/actions/workflows/build-lxc-image.yaml)
-[![Build Incus
-image](https://github.com/Chiogros/image-mageia/actions/workflows/build-incus-image.yaml/badge.svg)](https://github.com/Chiogros/image-mageia/actions/workflows/build-incus-image.yaml)
-[![Build Docker
-image](https://github.com/Chiogros/image-mageia/actions/workflows/build-docker-image.yaml/badge.svg)](https://github.com/Chiogros/image-mageia/actions/workflows/build-docker-image.yaml)
+[![LXC](https://github.com/Chiogros/image-mageia/actions/workflows/build-lxc-image.yaml/badge.svg)](https://github.com/Chiogros/image-mageia/actions/workflows/build-lxc-image.yaml)
+[![Incus](https://github.com/Chiogros/image-mageia/actions/workflows/build-incus-image.yaml/badge.svg)](https://github.com/Chiogros/image-mageia/actions/workflows/build-incus-image.yaml)
+[![Docker](https://github.com/Chiogros/image-mageia/actions/workflows/build-docker-image.yaml/badge.svg)](https://github.com/Chiogros/image-mageia/actions/workflows/build-docker-image.yaml)
 
 ## Installation and usage
 
-Stable generated images are available on
+Stable images are available on
 [`Releases`](https://github.com/Chiogros/image-mageia/tags) page.
 
-Testing generated images are available on
+Testing images are available on
 [`Actions`](https://github.com/Chiogros/image-mageia/actions) page.
 
 ### LXC
@@ -58,7 +53,7 @@ $ qemu-system-x86_64
 1.  Convert `qcow2` to `vdi`:
 
 ``` Sh
-qemu-img convert -f qcow2 -O vdi disk.qcow2 disk.vdi
+$ qemu-img convert -f qcow2 -O vdi disk.qcow2 disk.vdi
 ```
 
 2.  In VirtualBox, create an empty VM.
