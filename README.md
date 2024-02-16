@@ -63,7 +63,7 @@ $ qemu-system-x86_64
 $ qemu-img convert -f qcow2 -O vdi disk.qcow2 disk.vdi
 ```
 
-2.  In VirtualBox, create an empty VM.
+2.  In VirtualBox, create an empty VM with **EFI** enabled.
 3.  Add the previously generated `disk.vdi` as a **SATA** device.
 
 ### Docker
