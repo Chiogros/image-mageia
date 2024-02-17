@@ -11,7 +11,6 @@ image:
 
 source:
   downloader: rootfs-http
-    #url: http://ftp.free.fr/mirrors/mageia.org/distrib/8/x86_64/install/stage2/mdkinst.sqfs
   url: file:///home/alex/Git/Mageia-LXC/mageia8.sqsh
     #keys:
     #- 0xEDCA7A90
@@ -24,10 +23,9 @@ source:
 targets:
   lxc:
     create_message: |-
-      You just created an {{ image.description }} container.
-
-      To enable SSH, run: urpmi openssh-server
+      You just created a {{ image.description }} container.
       No default root or user password are set by LXC.
+      Use: lxc-execute {{ image }}{{ release }} -- passwd root
 
     config:
 #      - type: all
@@ -53,10 +51,10 @@ targets:
 #      - type: all
 #        content: |-
 #          lxc.arch = {{ image.architecture_personality }}
-  lxd:
-    vm:
-      size: 2147483648
-      filesystem: ext4
+#  lxd:
+#    vm:
+#      size: 2147483648
+#      filesystem: ext4
 
 #files:
 #  - generator: dump
@@ -177,16 +175,17 @@ packages:
 #      variants:
 #        - default
 #
-#actions:
-#  - trigger: post-unpack
-#    action: |-
-#      #!/bin/sh
-#
-#      do something after the rootfs has been unpacked
+actions:
+    - trigger: post-unpack
+      action: |-
+        #!/bin/sh
+        cat /etc/redhat-release
+        #echo -e "toorinlxc\ntoorinlxc" | passwd --stdin root
 #
 #  - trigger: post-files
 #    action: |-
-#      #!/bin/sh
+#       #!/bin/sh
+#       passwd root
 #
 #      do something after the files section has been processed
 #
