@@ -36,6 +36,7 @@ lxc-start -n mageia -F -f .config/lxc/default.conf
 
 ## Notes
 ```Bash
+sudo distrobuilder build-dir mageia.yaml
 sudo distrobuilder pack-lxc mageia.yaml rootfs/ out/
 sudo lxc-create --name mageia8 --template local -- --fstree out/rootfs.tar.xz --metadata out/meta.tar.xz
 sudo lxc-start -n mageia8 -F
