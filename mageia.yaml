@@ -11,7 +11,8 @@ image:
 
 source:
   downloader: rootfs-http
-  url: http://ftp.free.fr/mirrors/mageia.org/distrib/8/x86_64/install/stage2/mdkinst.sqfs
+    #url: http://ftp.free.fr/mirrors/mageia.org/distrib/8/x86_64/install/stage2/mdkinst.sqfs
+  url: file:///home/alex/Git/Mageia-LXC/mageia8.sqsh
     #keys:
     #- 0xEDCA7A90
     #keyserver: http://pool.sks-keyservers.net
@@ -29,35 +30,35 @@ targets:
       No default root or user password are set by LXC.
 
     config:
-      - type: all
-        before: 5
-        content: |-
-          lxc.include = LXC_TEMPLATE_CONFIG/ubuntu.common.conf
+#      - type: all
+#        before: 5
+#        content: |-
+#          lxc.include = LXC_TEMPLATE_CONFIG/ubuntu.common.conf
+##
+#      - type: user
+#        before: 5
+#        content: |-
+#          lxc.include = LXC_TEMPLATE_CONFIG/ubuntu.userns.conf
 #
-      - type: user
-        before: 5
-        content: |-
-          lxc.include = LXC_TEMPLATE_CONFIG/ubuntu.userns.conf
-
       - type: all
         after: 4
         content: |-
           lxc.include = LXC_TEMPLATE_CONFIG/common.conf
-
-      - type: user
-        after: 4
-        content: |-
-          lxc.include = LXC_TEMPLATE_CONFIG/userns.conf
-
-      - type: all
-        content: |-
-          lxc.arch = {{ image.architecture_personality }}
+#
+#      - type: user
+#        after: 4
+#        content: |-
+#          lxc.include = LXC_TEMPLATE_CONFIG/userns.conf
+#
+#      - type: all
+#        content: |-
+#          lxc.arch = {{ image.architecture_personality }}
   lxd:
     vm:
       size: 2147483648
       filesystem: ext4
 
-files:
+#files:
 #  - generator: dump
 #    path: /some/path
 #    content: |-
@@ -80,15 +81,15 @@ files:
 #    variants:
 #      - default
 #
-  - generator: hostname
-    path: /etc/hostname
-
-  - generator: hosts
-    path: /etc/hosts
-
-  - generator: remove
-    path: /root/file
-
+#  - generator: hostname
+#    path: /etc/hostname
+#
+#  - generator: hosts
+#    path: /etc/hosts
+#
+#  - generator: remove
+#    path: /root/file
+#
 #  - generator: template
 #    name: foo
 #    content: |-
